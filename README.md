@@ -7,3 +7,4 @@ Some more development.
 Now this is version 1.1.0
 
 More development.
+Now this is version 1.2.0
