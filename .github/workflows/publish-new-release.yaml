@@ -2,7 +2,7 @@ name: Publish new release
 on:
   pull_request:
     branches:
-      - master
+      - main
     types:
       - closed
 jobs:
@@ -36,8 +36,8 @@ jobs:
       - name: Merge main branch into development branch
         uses: robotology/gh-action-nightly-merge@v1.3.1
         with:
-          stable_branch: 'main'
-          development_branch: 'devel'
+          stable_branch: main
+          development_branch: devel
           allow_ff: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
