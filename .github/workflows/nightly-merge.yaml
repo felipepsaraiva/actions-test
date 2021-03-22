@@ -1,0 +1,21 @@
+name: Nightly merge
+on:
+  push:
+    branches:
+      - main
+jobs:
+  merge:
+    name: Merge stable branch into development branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Merge main branch into development branch
+        uses: robotology/gh-action-nightly-merge@v1.3.2
+        with:
+          stable_branch: main
+          development_branch: devel
+          allow_ff: false
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
