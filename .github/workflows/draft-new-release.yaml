@@ -18,14 +18,24 @@ jobs:
 
       - name: Create release branch
         run: |
-          git checkout devel
           git branch release/${{ github.event.inputs.version }} devel
           git push origin release/${{ github.event.inputs.version }}
 
+      # - name: Create pull request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     branch: release/${{ github.event.inputs.version }}
+      #     base: main
+      #     title: Release v${{ github.event.inputs.version }}
+      #     body: This PR was created in response to a manual trigger of the release workflow.
+      #     draft: true
+
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: thomaseizinger/create-pull-request@1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: release/${{ github.event.inputs.version }}
+          head: release/${{ github.event.inputs.version }}
           base: main
           title: Release v${{ github.event.inputs.version }}
           body: This PR was created in response to a manual trigger of the release workflow.
