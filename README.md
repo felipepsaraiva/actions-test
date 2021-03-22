@@ -12,5 +12,5 @@ Now this is version 1.2.0
 More development.
 Now this is version 1.3.0
 
-More development.
-Now this is version 1.4.0
+More development fixed.
+Now this is version 1.4.1
