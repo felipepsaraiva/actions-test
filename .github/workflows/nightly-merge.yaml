@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Merge main branch into development branch
         uses: robotology/gh-action-nightly-merge@v1.3.2
