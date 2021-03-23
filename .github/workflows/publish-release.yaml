@@ -18,13 +18,6 @@ jobs:
           VERSION=${BRANCH_NAME#release/}
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
-      # - name: Extract version from branch name (for hotfix branches)
-      #   if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
-      #   run: |
-      #     BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-      #     VERSION=${BRANCH_NAME#hotfix/}
-      #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-
       - name: Checkout (for hotfix branches)
         if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
         uses: actions/checkout@v2
@@ -45,7 +38,7 @@ jobs:
 
       - name: Set hotfix version (for hotfix branches)
         if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
-        run: echo "RELEASE_VERSION=${{ steps.semvers.outputs.v_patch }}" >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION=${{ steps.semvers.outputs.patch }}" >> $GITHUB_ENV
 
       - name: Create release
         uses: ncipollo/release-action@v1
