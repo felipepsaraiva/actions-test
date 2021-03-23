@@ -32,11 +32,3 @@ jobs:
           name: Release v${{ env.RELEASE_VERSION }}
           tag: v${{ env.RELEASE_VERSION }}
           token: ${{ github.token }}
-
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Update major/minor tags
-        uses: vweevers/additional-tags-action@v1
