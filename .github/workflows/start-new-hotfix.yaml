@@ -1,0 +1,54 @@
+name: Start new hotfix
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Hotfix version
+        required: true
+      title:
+        description: Hotfix title
+jobs:
+  start-new-hotfix:
+    name: Start new hotfix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: devel
+
+      - name: Create hotfix branch
+        run: |
+          git branch hotfix/${{ github.event.inputs.version }} devel
+          git push origin hotfix/${{ github.event.inputs.version }}
+
+      - name: Setup hotfix title
+        id: title_setup
+        run: |
+          if [ -z "${{ github.event.inputs.title }}"]
+          then
+              echo "::set-output name=title::Hotfix v${{ github.event.inputs.version }}"
+          else
+              echo "::set-output name=title::Hotfix v${{ github.event.inputs.version }}: ${{ github.event.inputs.title }}"
+          fi
+
+      # - name: Create pull request
+      #   uses: thomaseizinger/create-pull-request@1.0.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     head: hotfix/${{ github.event.inputs.version }}
+      #     base: main
+      #     title: ${{ steps.title_setup.outputs.title }}
+      #     body: This PR was created in response to a manual trigger of the hotfix workflow.
+      #     draft: true
+
+      - name: Create pull request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: hotfix/${{ github.event.inputs.version }}
+          destination_branch: main
+          pr_title: ${{ steps.title_setup.outputs.title }}
+          pr_body: This PR was created in response to a manual trigger of the hotfix workflow.
+          pr_allow_empty: true
+          pr_draft: true
