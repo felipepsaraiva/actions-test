@@ -29,4 +29,4 @@ jobs:
           base: main
           title: Release v${{ github.event.inputs.version }}
           body: This PR was created in response to a manual trigger of the release workflow.
-          # draft: true # Ideally the PR should be created as draft
+          draft: false # Ideally the PR should be created as draft, but this is not allowed for free private repositories
