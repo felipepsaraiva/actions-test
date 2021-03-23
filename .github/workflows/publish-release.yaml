@@ -11,18 +11,17 @@ jobs:
     if: github.event.pull_request.merged == true # only merged pull requests must trigger this job
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Extract version from branch name (for release branches)
         if: startsWith(github.event.pull_request.head.ref, 'release/')
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           VERSION=${BRANCH_NAME#release/}
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Checkout (for hotfix branches)
-        if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Get previous tag (for hotfix branches)
         if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
@@ -47,3 +46,6 @@ jobs:
           name: Release v${{ env.RELEASE_VERSION }}
           tag: v${{ env.RELEASE_VERSION }}
           token: ${{ github.token }}
+
+      - name: Update major/minor tags
+        uses: vweevers/additional-tags-action@v1
