@@ -15,11 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: devel
+          ref: main
 
       - name: Create hotfix branch
         run: |
-          git branch hotfix/${{ github.event.inputs.version }} devel
+          git branch hotfix/${{ github.event.inputs.version }} main
           git push origin hotfix/${{ github.event.inputs.version }}
 
       - name: Setup hotfix title
@@ -48,7 +48,8 @@ jobs:
         with:
           source_branch: hotfix/${{ github.event.inputs.version }}
           destination_branch: main
-          pr_title: ${{ steps.title_setup.outputs.title }}
+          pr_title: '${{ steps.title_setup.outputs.title }}'
           pr_body: This PR was created in response to a manual trigger of the hotfix workflow.
           pr_allow_empty: true
           pr_draft: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
