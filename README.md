@@ -23,3 +23,6 @@ Now this is version 1.6.3
 
 More development.
 Now this is version 1.7.0
+
+More development.
+Now this is version 1.8.0
