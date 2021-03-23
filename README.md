@@ -18,5 +18,5 @@ Now this is version 1.4.1
 More development fixed.
 Now this is version 1.5.2
 
-More development.
-Now this is version 1.6.0
+More development fixed.
+Now this is version 1.6.1
