@@ -18,12 +18,27 @@ jobs:
           VERSION=${BRANCH_NAME#release/}
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Extract version from branch name (for hotfix branches)
+      - name: Checkout (for hotfix branches)
         if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
-        run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          VERSION=${BRANCH_NAME#hotfix/}
-          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get previous tag (for hotfix branches)
+        if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+        id: previoustag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+
+      - name: Get next SemVers (for hotfix branches)
+        if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+        id: semvers
+        uses: WyriHaximus/github-action-next-semvers@v1
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+
+      - name: Set hotfix version (for hotfix branches)
+        if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+        run: echo "RELEASE_VERSION=${{ steps.semvers.outputs.patch }}" >> $GITHUB_ENV
 
       - name: Create release
         uses: ncipollo/release-action@v1
@@ -33,7 +48,7 @@ jobs:
           tag: v${{ env.RELEASE_VERSION }}
           token: ${{ github.token }}
 
-      - name: Checkout
+      - name: Checkout new changes
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
