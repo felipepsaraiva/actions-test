@@ -1,4 +1,4 @@
-name: Additional SemVer tags
+name: Update major/minor SemVer
 on:
   push:
     branches-ignore:
@@ -6,8 +6,8 @@ on:
     tags:
       - 'v*.*.*'
 jobs:
-  create-tags:
+  update-semver:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: vweevers/additional-tags-action@v1
+      - uses: haya14busa/action-update-semver@v1
