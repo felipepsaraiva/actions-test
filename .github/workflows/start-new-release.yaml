@@ -1,16 +1,15 @@
-name: Draft new release
+name: Start new release
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: The version you want to release.
+        description: Release version
         required: true
 jobs:
-  draft-new-release:
-    name: Draft a new release
+  start-new-release:
+    name: Start new release
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -20,15 +19,6 @@ jobs:
         run: |
           git branch release/${{ github.event.inputs.version }} devel
           git push origin release/${{ github.event.inputs.version }}
-
-      # - name: Create pull request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     branch: release/${{ github.event.inputs.version }}
-      #     base: main
-      #     title: Release v${{ github.event.inputs.version }}
-      #     body: This PR was created in response to a manual trigger of the release workflow.
-      #     draft: true
 
       - name: Create pull request
         uses: thomaseizinger/create-pull-request@1.0.0
