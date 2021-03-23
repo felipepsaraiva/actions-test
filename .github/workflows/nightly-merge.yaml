@@ -19,5 +19,6 @@ jobs:
           stable_branch: main
           development_branch: devel
           allow_ff: false
+          allow_forks: true # Mandatory for private repositories
         env:
           GITHUB_TOKEN: ${{ github.token }}
