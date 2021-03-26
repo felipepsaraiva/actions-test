@@ -1,0 +1,33 @@
+name: Check version
+on: [pull_request]
+jobs:
+  check_version:
+    name: Check package.xml version
+    if: startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version from branch name (for release branches)
+        if: startsWith(github.event.pull_request.head.ref, 'release/')
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          VERSION=${BRANCH_NAME#release/}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Extract version from branch name (for hotfix branches)
+        if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          VERSION=${BRANCH_NAME#hotfix/}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check if package.xml version was updated
+        run: |
+          FILE_PATH=$(echo "${{ github.repository }}" | cut -d '/' -f 2)/package.xml
+          echo 'Searching version $VERSION in file $FILE_PATH'
+          if grep -q $VERSION "$FILE_PATH"; then
+            echo "Version not found!"
+            exit 1
+          fi
