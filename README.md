@@ -38,3 +38,5 @@ Now this is version 1.11.1
 
 More development.
 Now this is version 1.12.0
+
+Implemented something new.
