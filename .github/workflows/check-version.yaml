@@ -1,5 +1,8 @@
 name: Check version
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
   check_version:
     name: Check package.xml version
