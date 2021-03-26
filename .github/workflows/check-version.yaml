@@ -27,7 +27,7 @@ jobs:
         run: |
           FILE_PATH=$(echo "${{ github.repository }}" | cut -d '/' -f 2)/package.xml
           echo "Searching version $VERSION in file $FILE_PATH"
-          if grep -q $VERSION "$FILE_PATH"; then
+          if ! grep -q $VERSION "$FILE_PATH"; then
             echo "Version not found!"
             exit 1
           fi
