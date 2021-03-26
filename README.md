@@ -37,3 +37,4 @@ More development fixed.
 Now this is version 1.11.1
 
 More development.
+Now this is version 1.12.0
