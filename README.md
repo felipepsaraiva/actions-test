@@ -42,3 +42,5 @@ Now this is version 1.12.0
 Implemented something new fixed.
 Implemented other thing.
 Now this is version 1.13.1
+
+Implemented something that is not a feature.
