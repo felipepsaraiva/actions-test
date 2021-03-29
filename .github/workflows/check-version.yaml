@@ -28,7 +28,7 @@ jobs:
 
       - name: Check if package.xml version was updated
         run: |
-          FILE_PATH=$(echo "${{ github.repository }}" | cut -d '/' -f 2)/package.xm
+          FILE_PATH=$(echo "${{ github.repository }}" | cut -d '/' -f 2)/package.xml
           echo "Searching version $VERSION in file $FILE_PATH"
           if [ -f $FILE_PATH ]  && ! grep -q $VERSION "$FILE_PATH"; then
             echo "Version not found! Please update the package.xml version..."
