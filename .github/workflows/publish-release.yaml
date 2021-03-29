@@ -33,6 +33,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           commit: ${{ github.event.pull_request.merge_commit_sha }}
-          name: Release v${{ env.RELEASE_VERSION }}
+          name: v${{ env.RELEASE_VERSION }}
           tag: v${{ env.RELEASE_VERSION }}
           token: ${{ github.token }}
